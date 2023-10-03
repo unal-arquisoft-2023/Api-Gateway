@@ -18,6 +18,8 @@ import { regMedTypeDef, regMedsMutations, regMedsQueries } from './registrosMedi
 import regMedResolvers from './registrosMedicos/resolverRegMed';
 import appointmentsResolvers from './appointments/resolverAppointment';
 import { availabilityMutations, availabilityQueries, doctorAvailabilityTypeDef } from './appointments/typeDefsAppointment';
+import { authQueries, typeDefsAuth } from './auth/typeDefsAuth';
+import authResolvers from './auth/resolverAuth';
 
 // merge the typeDefs
 const mergedTypeDefs = mergeSchemas(
@@ -26,13 +28,15 @@ const mergedTypeDefs = mergeSchemas(
 		notificationTypeDef,
 		userTypeDef,
     regMedTypeDef,
-    doctorAvailabilityTypeDef
+    doctorAvailabilityTypeDef,
+    typeDefsAuth
 	],
 	[
 		notificationsQueries,
 		usersQueries,
     regMedsQueries,
     availabilityQueries,
+    authQueries,
 	],
 	[
 		notificationsMutations,
@@ -51,5 +55,6 @@ export default makeExecutableSchema({
 		userResolvers,
     regMedResolvers,
     appointmentsResolvers,
+    authResolvers
 	)
 });

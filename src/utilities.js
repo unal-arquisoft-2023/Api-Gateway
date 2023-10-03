@@ -29,6 +29,24 @@ export async function generalRequest(url, method, body, fullResponse) {
 	}
 }
 
+export async function requestFormData(url, method, formData) {
+  const parameters = {
+    method,
+    uri: encodeURI(url),
+    formData,
+  };
+  if (process.env.SHOW_URLS) {
+    // eslint-disable-next-line
+    console.log(url);
+  }
+
+  try {
+    return await request(parameters);
+  } catch (err) {
+    return err;
+  }
+}
+
 /**
  * Adds parameters to a given route
  * @param {string} url
