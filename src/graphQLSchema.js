@@ -10,17 +10,24 @@ import { notificationTypeDef,
 
 import notificationResolvers from './notifications/resolverNoti';
 
+import { userTypeDef, usersQueries, usersMutations } from './users/typeDefsUsers';
+
+import userResolvers from './users/resolverUser';
+
 // merge the typeDefs
 const mergedTypeDefs = mergeSchemas(
 	[
 		'scalar JSON',
-		notificationTypeDef
+		notificationTypeDef,
+		userTypeDef
 	],
 	[
-		notificationsQueries
+		notificationsQueries,
+		usersQueries
 	],
 	[
-		notificationsMutations
+		notificationsMutations,
+		usersMutations
 	]
 );
 
@@ -29,6 +36,7 @@ export default makeExecutableSchema({
 	typeDefs: mergedTypeDefs,
 	resolvers: merge(
 		{ JSON: GraphQLJSON }, // allows scalar JSON
-		notificationResolvers
+		notificationResolvers,
+		userResolvers
 	)
 });
