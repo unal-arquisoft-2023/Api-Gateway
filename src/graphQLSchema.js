@@ -13,21 +13,32 @@ import notificationResolvers from './notifications/resolverNoti';
 import { userTypeDef, usersQueries, usersMutations } from './users/typeDefsUsers';
 
 import userResolvers from './users/resolverUser';
+import { regMedTypeDef, regMedsMutations, regMedsQueries } from './registrosMedicos/typeDefsRegMed';
+
+import regMedResolvers from './registrosMedicos/resolverRegMed';
+import appointmentsResolvers from './appointments/resolverAppointment';
+import { availabilityMutations, availabilityQueries, doctorAvailabilityTypeDef } from './appointments/typeDefsAppointment';
 
 // merge the typeDefs
 const mergedTypeDefs = mergeSchemas(
 	[
 		'scalar JSON',
 		notificationTypeDef,
-		userTypeDef
+		userTypeDef,
+    regMedTypeDef,
+    doctorAvailabilityTypeDef
 	],
 	[
 		notificationsQueries,
-		usersQueries
+		usersQueries,
+    regMedsQueries,
+    availabilityQueries,
 	],
 	[
 		notificationsMutations,
-		usersMutations
+		usersMutations,
+    regMedsMutations,
+    availabilityMutations,
 	]
 );
 
@@ -37,6 +48,8 @@ export default makeExecutableSchema({
 	resolvers: merge(
 		{ JSON: GraphQLJSON }, // allows scalar JSON
 		notificationResolvers,
-		userResolvers
+		userResolvers,
+    regMedResolvers,
+    appointmentsResolvers,
 	)
 });

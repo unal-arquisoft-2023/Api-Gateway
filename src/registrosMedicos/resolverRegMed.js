@@ -1,27 +1,24 @@
 import { generalRequest } from "../utilities";
-import {url, port, entryPoint} from './serverRegMed'
+import { url, port, entryPoint } from './serverRegMed'
 
-const URL =  `http://${url}:${port}/${entryPoint}`
+const URL = `http://${url}:${port}/${entryPoint}`
 
 
+const getData = (promise) => promise.then((data) => data.data)
 
 
 const resolvers = {
   Query: {
     allRegistrosMedicos: (_) =>
-      generalRequest(`${URL}/getAll`, "GET"),
+      getData(generalRequest(`${URL}/getAll`, "GET")),
     registroMedicoById: (_, { id }) =>
-      generalRequest(`${URL}/get/${id}`, "GET"),
+      getData(generalRequest(`${URL}/get/${id}`, "GET")),
     registrosMedicosByIds: (_, { ids }) =>
-      generalRequest(`${URL}/getMany`, "POST", { ids }),
+      getData(generalRequest(`${URL}/getMany`, "POST", { ids })),
   },
   Mutation: {
-    createRegistroMedico: (_, { detail }) =>
-      generalRequest(`${URL}/create`, "POST", detail),
-    updateRegistroMedico: (_, { id, detail }) =>
-      generalRequest(`${URL}/update/${id}`, "PUT", detail),
-    deleteRegistroMedico: (_, { id }) =>
-      generalRequest(`${URL}/delete/${id}`, "DELETE"),
+    createRegistroMedico: (_, { detail }) => 
+     getData(generalRequest(`${URL}/create`, "POST", detail)),
   },
 }
 

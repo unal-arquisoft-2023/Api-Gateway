@@ -19,6 +19,4 @@ export const regMedsQueries = `
 
 export const regMedsMutations = `
     createRegistroMedico(detail: RegistroMedicoInput!): RegistroMedico!
-    updateRegistroMedico(id: Int!, detail: RegistroMedicoInput!): RegistroMedico!
-    deleteRegistroMedico(id: Int!): Int
 `;

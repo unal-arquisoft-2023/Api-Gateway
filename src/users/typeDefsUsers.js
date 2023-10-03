@@ -41,7 +41,7 @@ export const userTypeDef = `
         registerDate: String!
         status: StatusUser!
         dni: String!
-        speciality: specialityType!
+        specialty: specialtyType!
         medicalLicenseID: String!
     }
     
@@ -93,7 +93,7 @@ export const userTypeDef = `
         registerDate: String!
         status: StatusUser!
         dni: String!
-        speciality: specialityType!
+        specialty: specialtyType!
         medicalLicenseID: String!
     }
 
@@ -114,7 +114,7 @@ export const userTypeDef = `
         INSURANCE
     }
 
-    enum specialityType {
+    enum specialtyType {
         GeneralMedicine
         Pediatrics
         Cardiology
@@ -145,7 +145,7 @@ export const usersQueries = `
     doctorById(id: String!): doctor!
     allDoctors: [doctor]!
     allPatients: [patient]!
-    doctorBySpeciality(speciality: specialityType!): [doctor]!    
+    doctorBySpecialty(specialty: specialtyType!): [doctor]    
 `; 
 export const usersMutations = `
     createStaff(staff: staffInput!): JSON!
