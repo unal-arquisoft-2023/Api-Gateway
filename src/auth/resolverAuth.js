@@ -1,7 +1,7 @@
 import { requestFormData } from '../utilities'
 import { url, port } from './serverAuth'
 
-const URL = `http://${url}:${port}`
+export const URL = `http://${url}:${port}`
 
 const resolvers = {
   Query: {
@@ -11,10 +11,11 @@ const resolvers = {
         accessToken: res.access_token,
         tokenType: res.token_type
       }
-      console.log(adaptedResponse)
       return adaptedResponse
     }
+  },
+  Mutation: {
   }
-}
+};
 
 export default resolvers

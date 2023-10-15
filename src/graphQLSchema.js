@@ -29,14 +29,12 @@ const mergedTypeDefs = mergeSchemas(
 		userTypeDef,
     regMedTypeDef,
     doctorAvailabilityTypeDef,
-    typeDefsAuth
 	],
 	[
 		notificationsQueries,
 		usersQueries,
     regMedsQueries,
     availabilityQueries,
-    authQueries,
 	],
 	[
 		notificationsMutations,
@@ -46,8 +44,39 @@ const mergedTypeDefs = mergeSchemas(
 	]
 );
 
+// TODO: HERE SHOULD ONLY BE USERS
+// BUT IT ERRORS OUT IF I DOESNT INCLUDE
+// A RESOLVER WITH AT LEAST ONE MUTATION
+const authRawSchema = mergeSchemas(
+  [
+    'scalar JSON',
+    typeDefsAuth,
+		userTypeDef,
+  ],
+  [
+    authQueries,
+		usersQueries,
+  ],
+  [
+		usersMutations,
+  ]
+);
+
+
+export const authSchema = makeExecutableSchema({
+  typeDefs: authRawSchema,
+  resolvers: merge(
+    {JSON: GraphQLJSON},
+    authResolvers,
+    userResolvers,
+  )
+})
+
+console.log("wawa")
+
+
 // Generate the schema object from your types definition.
-export default makeExecutableSchema({
+export const generalSchema = makeExecutableSchema({
 	typeDefs: mergedTypeDefs,
 	resolvers: merge(
 		{ JSON: GraphQLJSON }, // allows scalar JSON
@@ -55,6 +84,5 @@ export default makeExecutableSchema({
 		userResolvers,
     regMedResolvers,
     appointmentsResolvers,
-    authResolvers
 	)
 });

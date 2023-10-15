@@ -29,6 +29,36 @@ export async function generalRequest(url, method, body, fullResponse) {
 	}
 }
 
+/**
+ * Creaes a request with headers following the given parameters
+ * @param {string} url
+ * @param {string} method
+ * @param {object} headers
+ * @param {object} [body]
+ * @param {boolean} [fullResponse]
+ * @return {Promise.<*>} - promise with the error or the response object
+ */
+export async function generalRequestHeaders(url, method, headers, body, fullResponse) {
+  const parameters = {
+    method,
+    uri: encodeURI(url),
+    body,
+    headers,
+    json: true,
+    resolveWithFullResponse: fullResponse
+  };
+  if (process.env.SHOW_URLS) {
+    // eslint-disable-next-line
+    console.log(url);
+  }
+
+  try {
+    return await request(parameters);
+  } catch (err) {
+    return err;
+  }
+}
+
 export async function requestFormData(url, method, formData) {
   const parameters = {
     method,
