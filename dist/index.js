@@ -16,7 +16,6 @@ const logger = require("koa-logger");
 const bodyParser = require("koa-bodyparser");
 const gracefulShutdown = require("http-graceful-shutdown");
 const yoga_js_1 = require("./graphql/yoga.js");
-const queue_1 = require("./resources/queue");
 const app = new Koa();
 const router = new Router();
 app
@@ -30,12 +29,22 @@ router.use(yoga_js_1.yoga.graphqlEndpoint, (ctx) => __awaiter(void 0, void 0, vo
 }));
 router.use('/test', bodyParser());
 router.get('/test', (ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const a = yield (0, queue_1.connectToRabbitMQ)();
+    // const a = await connectToRabbitMQ();
     //await publishMessage(a.channel,'notification_queue', {contact:'+573045402014', message:'test'});
     //await consumeMessage(a.channel,'notification_queue');
     //const awa = await NotificationsRepositoryImpl.delete(3);
     //await queuePost(ctx);
-    yield (0, queue_1.queueGet)(ctx);
+    // await queueGet(ctx);
+    // const newAppointment: CreateAppointmentRequestDTO = {
+    //   patient_id: "1",
+    //   doctor_id: "12323",
+    //   date: new Date(Date.now()),
+    //   specialty: Specialty.Cardiology,
+    //   block_id: 9
+    // }
+    // const newRes = await AppointmentsRepoMs.create(newAppointment);
+    // const allOf1 = await AppointmentsRepoMs.findByPatientId("1");
+    // const allOfCardiology = await AppointmentsRepoMs.findBySpecialty(Specialty.Cardiology);
     const awa = "sx";
     ctx.type = 'application/json; charset=utf-8';
     ctx.body = {

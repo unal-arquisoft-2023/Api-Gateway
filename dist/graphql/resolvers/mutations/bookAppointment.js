@@ -1,18 +1,4 @@
 "use strict";
-/*
-
-type PatientData {
-  id: Int!
-  cardId: String!
-  name: String!
-  affiliation:  AffiliationType!
-  affiliationDate: LocalDate!
-}
-
-
-myInfo: PatientData!
-
-*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -23,21 +9,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const appointments_1 = require("../../../resources/appointments");
 const auth_1 = require("../../../resources/auth");
 const users_1 = require("../../../resources/users");
-const myInfo = (parent, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
+const getDoctor = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const doctor = yield users_1.doctorRepoMs.get(id);
+    return {
+        id: doctor.id,
+        name: doctor.name.firstName + " " + doctor.name.lastName,
+        specialty: doctor.specialty
+    };
+});
+const bookAppointment = (parent, args, context, info) => __awaiter(void 0, void 0, void 0, function* () {
     const tokenRaw = context.request.header.authorization;
     // extract token from "Bearer <token>"
     const token = tokenRaw.split(" ")[1];
     const { userId } = yield auth_1.authRepoMs.me(token);
-    const patientData = yield users_1.patientRepoMs.get(userId);
-    const patientDataWithAffiliation = {
-        id: patientData.id,
-        cardId: patientData.cardId,
-        name: `${patientData.name.firstName} ${patientData.name.lastName}`,
-        affiliation: patientData.affiliation,
-        affiliationDate: (new Date(Date.now())).toISOString().split("T")[0]
-    };
-    return patientDataWithAffiliation;
+    try {
+        console.log(args.date, new Date(args.date));
+        const { specialty } = yield users_1.doctorRepoMs.get(args.doctorId);
+        const apps = yield appointments_1.AppointmentsRepoMs.create({
+            patient_id: userId,
+            doctor_id: args.doctorId,
+            specialty: specialty,
+            date: new Date(args.date),
+            block_id: args.timeBlockId
+        });
+        return true;
+    }
+    catch (e) {
+        console.log(e);
+        return false;
+    }
 });
-exports.default = myInfo;
+exports.default = bookAppointment;

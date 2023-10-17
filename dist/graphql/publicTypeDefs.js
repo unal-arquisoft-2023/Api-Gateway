@@ -37,7 +37,7 @@ type TimeBlock {
 }
 
 type DoctorDisplay {
-  id: Int!
+  id: String!
   name: String!
   specialty: Specialty!
 }
@@ -100,7 +100,7 @@ type Mutation {
   logout: Boolean!
 
 
-  bookAppointment(doctorId: Int!, date: LocalDate!, timeBlockId: Int!): Boolean!
+  bookAppointment(doctorId: String!, date: LocalDate!, timeBlockId: Int!): Boolean!
   cancelAppointment(appointmentId: Int!): Boolean!
 }
 

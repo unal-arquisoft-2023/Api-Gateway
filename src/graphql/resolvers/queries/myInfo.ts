@@ -31,9 +31,7 @@ const myInfo = async (parent, args, context, info): Promise<PatientData> => {
   const token = tokenRaw.split(" ")[1];
 
   const {userId} = await authRepoMs.me(token);
-  console.log(userId, "got hereeee")
   const patientData = await patientRepoMs.get(userId);
-  console.log(patientData.registrationDate)
   const patientDataWithAffiliation = {
     id: patientData.id,
     cardId: patientData.cardId,
