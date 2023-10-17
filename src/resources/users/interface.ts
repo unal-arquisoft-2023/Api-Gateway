@@ -8,12 +8,7 @@ export type Location = {
   city: string;
   address: string;
 }
-export type AppointmentNotify = {
-  appointmentId: number;
-  date: string;
-  patientId: number;
-  specialty: Specialty;
-}
+
 export type Name = {
   firstName: string;
   lastName: string;
@@ -100,6 +95,3 @@ export interface DoctorsRepository {
   update(doctor: Doctor): Promise<string>;
 }
 
-export interface NotificationsRepository {
-  create()
-}

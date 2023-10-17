@@ -6,8 +6,7 @@ import * as bodyParser from 'koa-bodyparser';
 import * as gracefulShutdown from 'http-graceful-shutdown';
 import { yoga, yogaMiddleware } from './graphql/yoga.js';
 import { NotificationsRepositoryImpl } from './resources/notification';
-import {Specialty} from './resources/users/interface'
-
+import {connectToRabbitMQ, publishMessage, consumeMessage, queueGet, queuePost} from './resources/queue';
 const app = new Koa();
 const router = new Router();
 
@@ -24,11 +23,16 @@ router.use(yoga.graphqlEndpoint, async (ctx) => {
   await yogaMiddleware(ctx)
 });
 
+router.use('/test', bodyParser())
 router.get('/test', async (ctx, next) => {
 
-
-  const awa = await NotificationsRepositoryImpl.delete(3);
-
+  const a = await connectToRabbitMQ();
+  //await publishMessage(a.channel,'notification_queue', {contact:'+573045402014', message:'test'});
+  //await consumeMessage(a.channel,'notification_queue');
+  //const awa = await NotificationsRepositoryImpl.delete(3);
+  //await queuePost(ctx);
+  await queueGet(ctx);
+  const awa ="sx";
   ctx.type = 'application/json; charset=utf-8';
   ctx.body = {
     awa
@@ -38,7 +42,6 @@ router.get('/test', async (ctx, next) => {
   await next();
 });
 
-router.use('/test', bodyParser())
 
 
 app

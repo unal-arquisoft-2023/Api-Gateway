@@ -16,7 +16,7 @@ const logger = require("koa-logger");
 const bodyParser = require("koa-bodyparser");
 const gracefulShutdown = require("http-graceful-shutdown");
 const yoga_js_1 = require("./graphql/yoga.js");
-const notification_1 = require("./resources/notification");
+const queue_1 = require("./resources/queue");
 const app = new Koa();
 const router = new Router();
 app
@@ -28,15 +28,21 @@ router.all(yoga_js_1.yoga.graphqlEndpoint, (ctx, next) => __awaiter(void 0, void
 router.use(yoga_js_1.yoga.graphqlEndpoint, (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, yoga_js_1.yogaMiddleware)(ctx);
 }));
+router.use('/test', bodyParser());
 router.get('/test', (ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const awa = yield notification_1.NotificationsRepositoryImpl.delete(3);
+    const a = yield (0, queue_1.connectToRabbitMQ)();
+    //await publishMessage(a.channel,'notification_queue', {contact:'+573045402014', message:'test'});
+    //await consumeMessage(a.channel,'notification_queue');
+    //const awa = await NotificationsRepositoryImpl.delete(3);
+    //await queuePost(ctx);
+    yield (0, queue_1.queueGet)(ctx);
+    const awa = "sx";
     ctx.type = 'application/json; charset=utf-8';
     ctx.body = {
         awa
     };
     yield next();
 }));
-router.use('/test', bodyParser());
 app
     .use(router.routes())
     .use(router.allowedMethods());

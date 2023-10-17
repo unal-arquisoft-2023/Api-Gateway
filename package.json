@@ -18,6 +18,8 @@
     "@graphql-tools/schema": "^10.0.0",
     "@koa/bodyparser": "^5.0.0",
     "@koa/router": "^11.0.2",
+    "@types/amqplib": "^0.10.2",
+    "amqplib": "^0.10.3",
     "axios": "^1.5.1",
     "dotenv": "^16.3.1",
     "graphql-yoga": "^5.0.0",
