@@ -29,8 +29,9 @@ const myAppointments = async (parent, args, context, info): Promise<BookedAppoin
   const endDate = new Date(args.endDate);
   const res = apps
     .filter(app => {
-      return app.date >= startDate &&
-        app.date <= endDate &&
+      
+      return (!args.startDate || app.date >= startDate) &&
+        (!args.endDate || app.date <= endDate ) &&
         args.types.indexOf(app.status.toUpperCase()) != -1
     }
     )

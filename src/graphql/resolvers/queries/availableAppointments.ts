@@ -55,9 +55,9 @@ const availableAppointment = async (parent, args, context, info): Promise<Availa
   const endDate = new Date(args.endDate);
   const res = apps
     .filter(app => {
-      return app.date >= startDate &&
-        app.date <= endDate
-    }
+      return (!args.startDate || app.date >= startDate) &&
+        (!args.endDate || app.date <= endDate );
+          }
     )
     .map(async app =>  ({ 
       date: app.date,
